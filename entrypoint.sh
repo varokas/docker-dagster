@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd $DAGSTER_DAGS
+
 # This block may be omitted if not packaging a repository with cron schedules
 ####################################################################################################
 # see: https://unix.stackexchange.com/a/453053 - fixes inflated hard link count

@@ -6,9 +6,10 @@ RUN apt-get update && apt-get install -yqq cron
 
 ENV DAGSTER_VERSION=0.7.13
 ENV DAGSTER_HOME=/opt/dagster/home
-ENV DAGSTER_WORKDIR=/opt/dagster/app
+ENV DAGSTER_APP=/opt/dagster/app
+ENV DAGSTER_DAGS=/opt/dagster/dags
 
-RUN mkdir -p ${DAGSTER_HOME} ${DAGSTER_WORKDIR}
+RUN mkdir -p ${DAGSTER_HOME} ${DAGSTER_APP}
 RUN pip install \
       dagster==${DAGSTER_VERSION} \
       dagit==${DAGSTER_VERSION} \
@@ -38,11 +39,11 @@ RUN curl -O https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-$
     && rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
 ## Entrypoint
+WORKDIR ${DAGSTER_DAGS}
+VOLUME ${DAGSTER_DAGS}
 
-WORKDIR ${DAGSTER_WORKDIR}
-
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
+COPY entrypoint.sh ${DAGSTER_APP}/entrypoint.sh
+RUN chmod +x ${DAGSTER_APP}/entrypoint.sh
 
 EXPOSE 3000
 ENTRYPOINT ["/opt/dagster/app/entrypoint.sh"]
