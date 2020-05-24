@@ -1,0 +1,43 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u varokas --password-stdin
+    - name: Build Image
+      run: docker build . -t varokas/sname: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u varokas --password-stdin
+    - name: Build Image
+      run: docker build . -t varokas/dagster:${GITHUB_RUN_NUMBER}
+    - name: Push Image
+      run: docker push varokas/dagster:${GITHUB_RUN_NUMBER}
+    - name: Tag new Image as Latest
+      run: docker tag varokas/dagster:${GITHUB_RUN_NUMBER} varokas/dagster:latest
+    - name: Push Latest
+      run: docker push varokas/dagster:latest:${GITHUB_RUN_NUMBER}
+    - name: Push Image
+      run: docker push varokas/dagster:${GITHUB_RUN_NUMBER}
+    - name: Tag new Image as Latest
+      run: docker tag varokas/dagster:${GITHUB_RUN_NUMBER} varokas/dagster:latest
+    - name: Push Latest
+      run: docker push varokas/dagster:latest
