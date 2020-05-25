@@ -18,7 +18,8 @@ RUN pip install \
       dagster-celery==${DAGSTER_VERSION} \
       dagster-postgres==${DAGSTER_VERSION} \
       dagster-aws==${DAGSTER_VERSION} \
-      dagster-pandas==${DAGSTER_VERSION} 
+      dagster-pandas==${DAGSTER_VERSION} \
+      dagster_cron==${DAGSTER_VERSION}
 
 ## Local Spark
 ENV SPARK_VERSION=2.4.5
