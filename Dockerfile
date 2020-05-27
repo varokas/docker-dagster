@@ -39,6 +39,11 @@ RUN curl -O https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-$
     && mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} ${SPARK_HOME} \
     && rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
+## SOPS
+ENV SOPS_VERSION=3.5.0
+RUN curl -L -O https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops_${SOPS_VERSION}_amd64.deb \
+    && dpkg -i sops_${SOPS_VERSION}_amd64.deb
+
 ## Entrypoint
 WORKDIR ${DAGSTER_DAGS}
 VOLUME ${DAGSTER_DAGS}
