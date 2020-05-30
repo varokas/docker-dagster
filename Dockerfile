@@ -19,8 +19,7 @@ RUN pip install \
       dagster-postgres==${DAGSTER_VERSION} \
       dagster-aws==${DAGSTER_VERSION} \
       dagster-pandas==${DAGSTER_VERSION} \
-      dagster_cron==${DAGSTER_VERSION} \
-      s3fs==0.4.2
+      dagster_cron==${DAGSTER_VERSION}
 
 ## Local Spark
 ENV SPARK_VERSION=2.4.5
@@ -44,6 +43,10 @@ RUN curl -O https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-$
 ENV SOPS_VERSION=3.5.0
 RUN curl -L -O https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops_${SOPS_VERSION}_amd64.deb \
     && dpkg -i sops_${SOPS_VERSION}_amd64.deb
+
+## Extra pip dependencies
+RUN pip install \
+      s3fs==0.4.2
 
 ## Entrypoint
 WORKDIR ${DAGSTER_DAGS}
